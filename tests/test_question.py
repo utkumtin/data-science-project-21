@@ -44,8 +44,12 @@ def test_is_spell_significant():
     assert is_spell_significant([1,1,1],[0,0,0],0.05) in [True,False]
 
 def test_summary_report():
-    report = generate_spell_summary_report([1,0,1])
-    assert "Toplam" in report
+    report = generate_spell_summary_report([
+            {"name": "Fireball", "damage": 150, "mana": 40, "hit": True},
+            {"name": "Ice Spike", "damage": 100, "mana": 30, "hit": False},
+            {"name": "Ice Spike", "damage": 100, "mana": 30, "hit": True}
+        ])
+    assert "hit_rate" in report["Fireball"]
 
 def send_post_request(url: str, data: dict, headers: dict = None):
     try:
@@ -80,7 +84,7 @@ def run_tests():
     
     url = "https://edugen-backend-487d2168bc6c.herokuapp.com/projectLog/"
     payload = {
-        "user_id": 34,
+        "user_id": 203,
         "project_id": 695,
         "user_score": round(user_score, 2),
         "is_auto": False
